@@ -1,4 +1,22 @@
-import { getWelcomeMessage } from './main';
+import { getWelcomeMessage, deleteUserById } from './main';
+
+// Functions for recurring actions
+
+// beforeAll(() => { // Created the database
+//   console.log('Running before all test');
+// });
+
+// beforeEach(() => { // Populates database
+//   console.log('Running before each test');
+// });
+
+// afterEach(() => { // Usually to clear (Clear database)
+//   console.log('Running after each test');
+// });
+
+// afterAll(() => { // Usually to clear (Clear database)
+//   console.log('Running after all test');
+// });
 
 // Basic tests
 
@@ -51,4 +69,93 @@ describe('Testing other mather methods', () => {
 
 // Reference equality tests
 
-describe('', () => {});
+describe('Testing reference equality', () => {
+  const user: any = {
+    name: 'Ben',
+  };
+
+  user['age'] = 25;
+
+  test('Should return a user object with age as 25', () => {
+    expect(user).toEqual({
+      name: 'Ben',
+      age: 25,
+    });
+  });
+
+  test('Should return a user object with name and age key', () => {
+    expect(user).toEqual(
+      expect.objectContaining({
+        name: expect.any(String),
+        age: expect.any(Number),
+      }),
+    );
+  });
+
+  test('Array equality', () => {
+    const users = ['Ben', 'Adam', 'Andrew', 'Bob'];
+
+    expect(users).not.toEqual([]);
+    expect(users).toEqual(expect.arrayContaining(['Ben']));
+    expect(users).toEqual(
+      expect.arrayContaining([expect.any(String)]),
+    );
+
+    const arrayOfUserObjects = [
+      {
+        name: 'Ben',
+        age: 25,
+      },
+      {
+        name: 'Adam',
+        age: 35,
+      },
+      {
+        name: 'Andrew',
+        age: 15,
+      },
+    ];
+
+    arrayOfUserObjects.push({
+      name: 'Bob',
+      age: 18,
+    });
+
+    expect(arrayOfUserObjects).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          name: expect.any(String),
+          age: expect.any(Number),
+        }),
+      ]),
+    );
+  });
+});
+
+describe('Testing function - deleteUserById', () => {
+  const users = [
+    {
+      id: 1,
+      name: 'Ben',
+    },
+    {
+      id: 2,
+      name: 'Adam',
+    },
+    {
+      id: 3,
+      name: 'Andrew',
+    },
+  ];
+
+  test('Should delete user with provided id', () => {
+    expect(deleteUserById(users, 3)).not.toContainEqual({
+      id: 3,
+      name: 'Andrew',
+    });
+  });
+
+  test("Should return initial array if user with provided id doesn't exist", () => {
+    expect(deleteUserById(users, 10)).toEqual(users);
+  });
+});
