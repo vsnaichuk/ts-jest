@@ -132,7 +132,9 @@ describe('Testing reference equality', () => {
   });
 });
 
-describe('Testing function - deleteUserById', () => {
+// should delete user with provided id
+// should return initial array if user with provided id doesn't exist
+describe('#deleteUserById', () => {
   const users = [
     {
       id: 1,
@@ -148,14 +150,14 @@ describe('Testing function - deleteUserById', () => {
     },
   ];
 
-  test('Should delete user with provided id', () => {
+  it('should delete user with provided id', () => {
     expect(deleteUserById(users, 3)).not.toContainEqual({
       id: 3,
       name: 'Andrew',
     });
   });
 
-  test("Should return initial array if user with provided id doesn't exist", () => {
+  it("should return initial array if user with provided id doesn't exist", () => {
     expect(deleteUserById(users, 10)).toEqual(users);
   });
 });
