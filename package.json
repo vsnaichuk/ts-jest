@@ -2,7 +2,9 @@
   "name": "ts-only",
   "version": "0.0.0",
   "scripts": {
-    "test": "jest --watchAll --verbose"
+    "test": "jest",
+    "test:watch:each": "jest --watchAll --verbose",
+    "test:coverage": "jest --coverage"
   },
   "devDependencies": {
     "@babel/core": "^7.19.6",
